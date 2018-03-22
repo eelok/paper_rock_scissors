@@ -1,12 +1,12 @@
 
 
-const userScore = 0;
-const computerScor = 0;
+let userScore = 0;
+let computerScore = 0;
 
-const userScor_span = document.getElementById('user-score');
-const computerScor_span = document.getElementById('computer-score');
+const userScore_span = document.getElementById('user-score');
+const computerScore_span = document.getElementById('computer-score');
 const scoreBord_div = document.querySelector('.scoreBord');
-const result_div = document.querySelector('.result');
+const result_p = document.querySelector('.result > p');
 
 const rock_div = document.getElementById('r');
 const paper_div = document.getElementById('p');
@@ -18,23 +18,50 @@ function getComputerChoice(){
     return choices[randomNumbers];
 }
 
+function convertToWord(letter) {
+    if (letter === 'r') return 'Rock';
+    if (letter === 's') return 'Scissors';
+    return 'Paper';
+}
+
+function win(userChoice, computerChoice){
+    userScore++;
+    userScore_span.innerHTML = userScore;
+    computerScore_span.innerHTML = computerScore;
+    const smallUserWord = 'user'.fontsize(3).sub();
+    const smallCompWord = 'comp'.fontsize(3).sub();
+    result_p.innerHTML = `${convertToWord(userChoice)}${smallUserWord} beats ${convertToWord(computerChoice)}${smallCompWord}. You win!`;
+}
+function lose(userChoice, computerChoice){
+    computerScore++;
+    userScore_span.innerHTML = userScore;
+    computerScore_span.innerHTML = computerScore;
+    const smallUserWord = 'user'.fontsize(3).sub();
+    const smallCompWord = 'comp'.fontsize(3).sub();
+    result_p.innerHTML = `${convertToWord(userChoice)}${smallUserWord} loses to ${convertToWord(computerChoice)}${smallCompWord}. You lost!`;
+}
+function draw(userChoice, computerChoice){
+    const smallUserWord = 'user'.fontsize(3).sub();
+    const smallCompWord = 'comp'.fontsize(3).sub();
+    result_p.innerHTML = `${convertToWord(userChoice)}${smallUserWord} equals ${convertToWord(computerChoice)}${smallCompWord}. It is a draw!`;
+}
 function game(userChoice){
     const computerChoice = getComputerChoice();
     switch(userChoice + computerChoice){
         case 'rs':
         case 'pr':
         case 'sp':
-            console.log('USER WINS');
+            win(userChoice, computerChoice);
             break;
         case 'sr':
         case 'rp':
         case 'ps':
-            console.log('USER LOSE');
+            lose(userChoice, computerChoice);
             break;
         case 'rr':
         case 'ss':
         case 'pp':    
-            console.log('It is a draw.');
+            draw(userChoice, computerChoice);
             break;   
     }
 }
